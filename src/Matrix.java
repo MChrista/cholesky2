@@ -45,7 +45,7 @@ public class Matrix {
 				if ( (temp = buffRead.readLine()) != null ) {
 					tempLine = readLinen(temp);
 					for ( int j = 0; j < size[1]; j++) { // spalten durchgehen
-						setElement(i,j, tempLine[j]);
+						addElement(i,j, tempLine[j]);
 					}
 				i++;
 				}
@@ -56,29 +56,35 @@ public class Matrix {
 				throw new RuntimeException(e);
 			}			
 		}
-		if ( i != hoehe() ) { // wenn es mehr oder weniger zeileneinträge als angegeben gibt
-			throw new RuntimeException(new IOException()); 
+		if ( i != hoehe() ) { // wenn es mehr oder weniger zeileneintrï¿½ge als angegeben gibt
+			throw new RuntimeException(new IOException("Textdatei fehlerhaft!")); 
 		}
 		
 	}
 	
  	public Matrix(int zeilen, int spalten) {
- 		 
  		mat = new Vector(spalten);
  		int i =0;
  		while ( i < spalten ) {
- 			mat.add(i, new Vector(zeilen) );
+ 			Vector tmp = new Vector(zeilen);
+ 			for (int j=0; j<zeilen; j++) {
+ 				tmp.add(j, 0.0);
+ 			}
+ 			mat.add(i, tmp);
  			i++;
  		}
  	}
  	
-
- 	
- 	public void setElement(int zeile, int spalte, double wert) {
+	private void addElement(int zeile, int spalte, double wert) {
  		Vector temp = (Vector) mat.get(spalte);
  		temp.add(zeile, wert);
  		mat.set(spalte, temp);
- 		
+ 	}
+ 	
+ 	public void setElement(int zeile, int spalte, double wert) {
+ 		Vector temp = (Vector) mat.get(spalte);
+ 		temp.set(zeile, wert);
+ 		mat.set(spalte, temp);	
  	}
  	
  	public double getElement(int zeile, int spalte) {
@@ -159,7 +165,7 @@ public class Matrix {
  		int spalten=0;
  		while(spalten != hoehe()){
  	 		int zeilen=0;
- 	 		while(zeilen != breite()){ //durchläuft alle zeilen der neuen matrix
+ 	 		while(zeilen != breite()){ //durchlï¿½uft alle zeilen der neuen matrix
  	 			matr.setElement(zeilen, spalten, getElement(spalten, zeilen));
  	 			zeilen++;
  	 		}

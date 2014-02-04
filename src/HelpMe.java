@@ -2,24 +2,15 @@
 public class HelpMe {
 
 	public static void main(String[] args) {
-		Matrix A1 = new Matrix("Testmatrizen/A1.txt");
-		Matrix b1 = new Matrix("Testmatrizen/b1.txt");
+		Matrix A1 = new Matrix("Testmatrizen/A2.txt");
 		System.out.println(A1.toString());
+		
+		Matrix b1 = new Matrix("Testmatrizen/b2.txt");
 		System.out.println(b1.toString());
-		b1.toFile("Testmatrizen/b1_tofile_test.txt");
-		Matrix b48 = new Matrix("Testmatrizen/b1_tofile_test.txt");
-		System.out.println(b48.toString());
-		System.out.println("transponierte");
-		Matrix b3=b1.transponierte();
-		System.out.println(b3.toString());
-		System.out.println("-------------------------");
-		Matrix b2 = new Matrix("Testmatrizen/b2.txt");
-		System.out.println(b2.toString());
 		
-		/*Matrix m = new Matrix(3, 3);
-		
-		Cholesky spannend = new Cholesky();
-		spannend.loese(A1, b1);*/	
+		Cholesky c = new Cholesky();
+		Matrix x = c.loese(A1, b1);
+		System.out.println("x:\n" + x.toString());
 	}
 
 }

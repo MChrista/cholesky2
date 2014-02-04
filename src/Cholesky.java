@@ -6,22 +6,19 @@ public class Cholesky {
 	}
 	public Matrix loese(Matrix A, Matrix b) {
 		/* A * x = b	Zu lösende Gleichung, x gesucht
-		 * A = C * Ct	A zerlegen mit Cholesky in C und C-transponiert
+		 * A = Ct * C	A zerlegen mit Cholesky in C und C-transponiert
 		 * Ct * y = b	Kann man einfach lösen nach y
 		 * C * x = y	Kann man nun nach x lösen
 		 */
 		
 		if (A.hoehe() != A.breite()) {
-			System.out.println("Cholesky-Zerlegung nicht moeglich, da die Matrix A nicht quadratisch ist.");
-			throw new RuntimeException();
+			throw new RuntimeException("Cholesky-Zerlegung nicht moeglich, da die Matrix A nicht quadratisch ist.");
 		}
 		if (b.breite() != 1) {
-			System.out.println("Vektor b muss die Breite 1 haben.");
-			throw new RuntimeException();
+			throw new RuntimeException("Vektor b muss die Breite 1 haben.");
 		}
 		if (A.hoehe() != b.hoehe()) {
-			System.out.println("Gleichungssystem nicht loesbar. Hoehen der Matrix A und des Vektors b muessen identisch sein.");
-			throw new RuntimeException();
+			throw new RuntimeException("Gleichungssystem nicht loesbar. Hoehen der Matrix A und des Vektors b muessen identisch sein.");
 		}
 		double wert;
 		int dim = A.hoehe();
@@ -33,42 +30,42 @@ public class Cholesky {
 		//Oberes Dreieck mit nullen fuellen
 		for (int z=0; z<dim; z++) {
 			for (int s=z+1; s<dim; s++) {
-				C.setElement(z, s, 0.0);
+				Ct.setElement(z, s, 0.0);
 			}
 		}
 		
 		//Unteres Dreieck und Hauptdiagonale berechnen
-		for (int z=0; z<dim; z++) {
-			for (int s=0; s<dim; s++) {
-				wert = A.getElement(z, s);
-				for (int i=1; i<s-1; i++) {
-					wert = wert - A.getElement(z, i) * A.getElement(s, i);
-				}
-				if (z>s) {
-					wert = wert / A.getElement(s, s);
-					C.setElement(z, s, wert);
-				}
-				else if (wert > 0) {
-					wert = Math.sqrt(wert);
-					C.setElement(z, z, wert);
-				}
-				else {
-					System.out.println("Cholesky-Verfahren nicht moeglich, da die Matrix A nicht symmetrisch positiv definit ist.");
-					throw new RuntimeException();
-				}
-			}
-		}
-		Ct = C.transponierte();
+		for (int i = 0; i < dim; i++)  {
+            for (int j = 0; j <= i; j++) {
+                double sum = 0.0;
+                for (int k = 0; k < j; k++) {
+                    sum += Ct.getElement(i, k) * Ct.getElement(j, k);
+                }
+                if (i == j) {
+                	Ct.setElement(i, i, Math.sqrt(A.getElement(i, i) - sum));
+                }
+                else {
+                	Ct.setElement(i, j, ( 1.0 / Ct.getElement(j, j) * (A.getElement(i, j) - sum)) );        
+                }
+            }
+            if (Ct.getElement(i, i) <= 0) {
+                throw new RuntimeException("Cholesky-Verfahren nicht moeglich, da die Matrix A nicht positiv definit ist.");
+            }
+        }
+		C = Ct.transponierte();
+		System.out.println("Cholesky-Matrix C: \n" + C.toString());
+		System.out.println("Transponierte C^t: \n" + Ct.toString());
 		
 		// Ct * y = b	Vektor y berechnen		Bsp dim=3
-		for (int z=dim-1; z>=0; z--){		//z: 2 bis 0
+		for (int z=0; z<dim; z++){		//z: 0 bis 2
 			wert = b.getElement(z, 0);
-			for (int s=dim-1; s>z; s--) {	//s: Garnicht, 2 bis 2, 2 bis 1
+			for (int s=0; s<z; s++) {	//s: Garnicht, 0 bis 0, 0 bis 1
 				wert = wert - Ct.getElement(z, s) * y.getElement(s, 0);
 			}
 			wert = wert / Ct.getElement(z, z);
 			y.setElement(z, 0, wert);
 		}
+		System.out.println("Hilfsvektor y mit C^t * y = b \n" + y.toString());
 		
 		// C * x = y	Vektor x berechnen		Bsp dim=4
 		for (int z=dim-1; z>=0; z--){		//z: 3 bis 0
