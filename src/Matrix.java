@@ -124,9 +124,9 @@ public class Matrix {
  	public String toString() {
  		String temp ="";
  		
- 		for ( int i =0; i < breite(); i++ ) {
- 			for ( int j = 0; j < hoehe(); j++ ) {
- 				temp += getElement(j,i);
+ 		for ( int i =0; i < hoehe(); i++ ) {
+ 			for ( int j = 0; j < breite(); j++ ) {
+ 				temp += getElement(i,j);
  				temp += " ";
  			}
  			temp += "\n";
