@@ -126,7 +126,7 @@ public class Matrix {
  				temp += getElement(i,j);
  				temp += " ";
  			}
- 			temp += "\n";
+ 			temp += "\r\n";
  		}
  		return temp;
  	}
@@ -141,9 +141,8 @@ public class Matrix {
 		}
  		BufferedWriter buffwrite = new BufferedWriter(fw);
  		try {
-			String temp = hoehe() + " " + breite() + "\n" + mat.toString();
-			System.out.println(temp);
-
+			String temp = hoehe() + " " + breite() + "\r\n" + this.toString();
+			buffwrite.append(temp);
 			buffwrite.close();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
