@@ -12,15 +12,16 @@ public class Cholesky {
 		 */
 		
 		if (A.hoehe() != A.breite()) {
-			System.out.println("Cholesky-Zerlegung nicht moeglich, da die Matrix A nicht symmetrisch ist.");
-			return null;
+			System.out.println("Cholesky-Zerlegung nicht moeglich, da die Matrix A nicht quadratisch ist.");
+			throw new RuntimeException();
 		}
 		if (b.breite() != 1) {
 			System.out.println("Vektor b muss die Breite 1 haben.");
-			return null;
+			throw new RuntimeException();
 		}
 		if (A.hoehe() != b.hoehe()) {
-			System.out.println("Gleichungssystem nicht loesbar. Hoehe der Matrix A und des Vektors b muss identisch sein.");
+			System.out.println("Gleichungssystem nicht loesbar. Hoehen der Matrix A und des Vektors b muessen identisch sein.");
+			throw new RuntimeException();
 		}
 		double wert;
 		int dim = A.hoehe();
@@ -53,7 +54,7 @@ public class Cholesky {
 				}
 				else {
 					System.out.println("Cholesky-Verfahren nicht moeglich, da die Matrix A nicht symmetrisch positiv definit ist.");
-					return null;
+					throw new RuntimeException();
 				}
 			}
 		}
