@@ -56,6 +56,9 @@ public class Matrix {
 				throw new RuntimeException(e);
 			}			
 		}
+		if ( i != hoehe() ) { // wenn es mehr oder weniger zeileneinträge als angegeben gibt
+			throw new RuntimeException(new IOException()); 
+		}
 		
 	}
 	
@@ -174,6 +177,10 @@ public class Matrix {
  		try {
  			dimensions[0] = Integer.parseInt(temp[0]);
  			dimensions[1] = Integer.parseInt(temp[1]);
+ 			if ( dimensions[0] == 0 || dimensions[1] == 0 || temp.length != 2 ) {
+ 				throw new IOException();
+ 			}
+ 			
  		}
  		catch ( Exception e ) {
  			throw new RuntimeException(e);
@@ -194,6 +201,9 @@ public class Matrix {
  			catch ( Exception e ) {
  				throw new RuntimeException(e);
  			}
+ 		}
+ 		if ( i != breite() ) {	// wenn weniger oder mehr spalten vorhanden sind als angegeben
+ 			throw new RuntimeException(new IOException());
  		}
  		return dubbel;
  		
