@@ -144,7 +144,7 @@ public class Matrix {
  		while(spalten != hoehe()){
  	 		int zeilen=0;
  	 		while(zeilen != breite()){ //durchläuft alle zeilen der neuen matrix
- 	 			matr.setElement(zeilen, spalten, getElement(spalten, zeilen));
+ 	 			matr.addElement(zeilen, spalten, getElement(spalten, zeilen));
  	 			zeilen++;
  	 		}
  	 		spalten++;
