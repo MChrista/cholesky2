@@ -60,10 +60,10 @@ public class Matrix {
  	public Matrix(int zeilen, int spalten) {
  		 
  		mat = new Vector(spalten);
- 		
- 		while ( spalten != 0 ) {
+ 		int i =0;
+ 		while ( i < spalten ) {
  			mat.add(spalten, new Vector(zeilen) );
- 			spalten--;
+ 			i++;
  		}
  	}
  	
