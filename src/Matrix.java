@@ -62,7 +62,7 @@ public class Matrix {
  		mat = new Vector(spalten);
  		int i =0;
  		while ( i < spalten ) {
- 			mat.add(spalten, new Vector(zeilen) );
+ 			mat.add(i, new Vector(zeilen) );
  			i++;
  		}
  	}
