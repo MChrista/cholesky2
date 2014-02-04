@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -43,7 +45,7 @@ public class Matrix {
 				if ( (temp = buffRead.readLine()) != null ) {
 					tempLine = readLinen(temp);
 					for ( int j = 0; j < size[1]; j++) { // spalten durchgehen
-						addElement(i,j, tempLine[j]);
+						setElement(i,j, tempLine[j]);
 					}
 				i++;
 				}
@@ -67,14 +69,9 @@ public class Matrix {
  		}
  	}
  	
- 	public void setElement(int zeile, int spalte, double wert) {
- 		Vector temp = (Vector) mat.get(spalte);
- 		temp.set(zeile, wert);
- 		mat.set(spalte, temp);
- 		
- 	}
+
  	
- 	private void addElement(int zeile, int spalte, double wert) {
+ 	public void setElement(int zeile, int spalte, double wert) {
  		Vector temp = (Vector) mat.get(spalte);
  		temp.add(zeile, wert);
  		mat.set(spalte, temp);
@@ -135,7 +132,24 @@ public class Matrix {
  	}
  	
  	public void toFile(String dateiname) {
-	 
+ 		File out = new File(dateiname);
+ 		FileWriter fw;
+		try {
+			fw = new FileWriter(out);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+ 		BufferedWriter buffwrite = new BufferedWriter(fw);
+ 		try {
+			String temp = hoehe() + " " + breite() + "\n" + mat.toString();
+			System.out.println(temp);
+
+			buffwrite.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+ 		
+ 		
  	}
  	
  	public Matrix transponierte() {
@@ -144,7 +158,7 @@ public class Matrix {
  		while(spalten != hoehe()){
  	 		int zeilen=0;
  	 		while(zeilen != breite()){ //durchläuft alle zeilen der neuen matrix
- 	 			matr.addElement(zeilen, spalten, getElement(spalten, zeilen));
+ 	 			matr.setElement(zeilen, spalten, getElement(spalten, zeilen));
  	 			zeilen++;
  	 		}
  	 		spalten++;
