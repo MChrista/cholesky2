@@ -10,7 +10,9 @@ public class Cholesky {
 		 * Ct * y = b	Kann man einfach lösen nach y
 		 * C * x = y	Kann man nun nach x lösen
 		 */
-		
+		if ( !testSymmetrie(A) ) {
+			throw new RuntimeException("Cholesky-Zerlegung nicht moeglich, da Matrix A nicht Symmetrisch ist");
+		}
 		if (A.hoehe() != A.breite()) {
 			throw new RuntimeException("Cholesky-Zerlegung nicht moeglich, da die Matrix A nicht quadratisch ist.");
 		}
@@ -79,5 +81,16 @@ public class Cholesky {
 		return x;
 	} 
 	
+	private boolean testSymmetrie(Matrix m) {
+		boolean flag = true;
+		for ( int i = 0; i < m.hoehe(); i++) {
+			for ( int j = 0; j< m.breite(); j++ ) {
+				if ( m.getElement(i, j) != m.getElement(j, i) ) {
+					flag = false;
+				}
+			}
+		}
+		return flag;
+	}
 
 }
