@@ -48,7 +48,7 @@ public class Cholesky {
                 	Ct.setElement(i, j, ( 1.0 / Ct.getElement(j, j) * (A.getElement(i, j) - sum)) );        
                 }
             }
-            if (Ct.getElement(i, i) <= 0) {
+            if (Double.isNaN( Ct.getElement(i, i) ) ) {
                 throw new RuntimeException("Cholesky-Verfahren nicht moeglich, da die Matrix A nicht positiv definit ist.");
             }
         }
